@@ -1,5 +1,7 @@
 #!/bin/gawk -f
 
+# mein Kommentar
+
 BEGIN {
     FS = ","
     OFS = ","
