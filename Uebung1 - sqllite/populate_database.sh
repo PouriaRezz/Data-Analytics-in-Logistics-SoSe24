@@ -28,7 +28,7 @@ EOF
 fi
 
 # Extract data using AWK script
-gawk -f extract.awk master.csv detail.csv > "$CSV_FILE"
+gawk -f extract.awk data/master.csv data/detail.csv > output/"$CSV_FILE"
 
 # Enable foreign key constraints
 sqlite3 "$DB_FILE" "PRAGMA foreign_keys=ON;"
@@ -36,7 +36,7 @@ sqlite3 "$DB_FILE" "PRAGMA foreign_keys=ON;"
 # Import data from the temporary CSV file, skipping the header and checking for existing data
 sqlite3 "$DB_FILE" <<EOF
 .mode csv
-.import "$CSV_FILE" Orders_temp
+.import output/$CSV_FILE Orders_temp
 INSERT OR IGNORE INTO Orders SELECT * FROM Orders_temp;
 DROP TABLE Orders_temp;
 EOF
