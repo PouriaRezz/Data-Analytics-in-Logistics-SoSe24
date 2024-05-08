@@ -78,4 +78,5 @@ time make all
 ```
 
 ## Tips
-`@` vor einem Command verhindert die Ausgabe des Commands auf der Konsole
+- `@` vor einem Command verhindert die Ausgabe des Commands auf der Konsole.
+- `.ONESHELL` am Beginn des Makefile sorgt dafür, dass alle Befehle eines Targets in einer Shell ausgeführt werden.
