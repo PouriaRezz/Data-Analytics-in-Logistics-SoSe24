@@ -12,7 +12,7 @@ set terminal svg enhanced font 'Verdana,9'; set output 'solar.svg'
 set xlabel "Daytime"
 set ylabel "Energy [kWh]"
 
-plot 'chart.csv' using 1:($2/1000), \
+plot '_chart.csv' using 1:($2/1000), \
     '' using 1:($3/1000), \
     '' using 1:($4/1000)
 
