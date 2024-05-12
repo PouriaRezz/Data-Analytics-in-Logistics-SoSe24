@@ -1,0 +1,7 @@
+SupplierID,SupplierName,SupplierLocation,ProductCategory
+1,Supplier A,New York,Electronics
+2,Supplier B,Los Angeles,Furniture
+3,Supplier C,Miami,Appliances
+4,Supplier D,Chicago,Electronics
+5,Supplier E,Houston,Furniture
+6,Supplier F,Dallas,Appliances
