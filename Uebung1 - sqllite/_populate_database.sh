@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DB_FILE="logistics.db"
+DB_FILE="output/logistics.db"
 CSV_FILE="extracted_data.csv"
 
 # Check if the SQLite database and tables exist
