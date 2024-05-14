@@ -1,3 +1,4 @@
+load "../_commonstyles.gnuplot"
 set style data lines
 set autoscale y
 
@@ -8,6 +9,6 @@ set ylabel "Energy [kWh]"
 
 f(x) = sin(x)
 
-plot f(x) w l ls 3
+plot f(x) w l ls 2
 
 #plot "chart.csv"

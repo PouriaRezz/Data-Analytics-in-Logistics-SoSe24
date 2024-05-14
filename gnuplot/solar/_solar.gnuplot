@@ -1,3 +1,4 @@
+load "../_commonstyles.gnuplot"
 set datafile separator ';'
 set key autotitle columnhead
 set timefmt "%Y-%m-%d %H:%M:%S"
@@ -7,7 +8,7 @@ set autoscale y
 set xdata time
 set format x "%H:%M"
 
-#set terminal svg enhanced font 'Verdana,9'; set output 'solar.svg'
+set terminal svg enhanced font 'Verdana,9'; set output 'solar.svg'
 
 set xlabel "Daytime"
 set ylabel "Energy [kWh]"
