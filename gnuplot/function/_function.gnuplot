@@ -8,6 +8,6 @@ set ylabel "Energy [kWh]"
 
 f(x) = sin(x)
 
-plot f(x)
+plot f(x) w l ls 3
 
 #plot "chart.csv"
