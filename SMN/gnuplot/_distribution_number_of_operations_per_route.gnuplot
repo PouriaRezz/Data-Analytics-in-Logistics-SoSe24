@@ -11,4 +11,4 @@ set ylabel "Cumulative probability"
 
 set terminal svg ; set output 'probability_of_number_of_operations_per_route.svg'
 
-plot '../distribution_number_of_operations_per_route.csv' using 1:3 smooth cumulative
+plot '../distribution_number_of_operations_per_lot.csv' using 1:3 smooth cumulative
