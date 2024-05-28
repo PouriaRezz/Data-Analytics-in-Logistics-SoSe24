@@ -12,7 +12,7 @@ SELECT
     COUNT(LOT)*1.0/(SELECT COUNT(*) FROM Operations_Per_Lot) AS Probability
 FROM operations_per_lot
 GROUP BY count
-ORDER BY count;
+ORDER BY Number_Of_Lots ASC;
 
 
 
