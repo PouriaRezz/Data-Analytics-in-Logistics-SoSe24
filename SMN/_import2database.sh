@@ -8,7 +8,7 @@ COUNT=$(sqlite3 SMN.db "SELECT COUNT(*) FROM SMN;");
 if [ $((COUNT)) -eq 0 ]
 then
 # Daten importieren
-sqlite3 -cmd ".mode tabs" SMN.db ".import --skip 1 routes.dat SMN"
+sqlite3 -cmd ".mode tabs" SMN.db ".import routes.dat temp"
 sqlite3 SMN.db < _postprocess_import.sql
 
 fi

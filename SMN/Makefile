@@ -1,7 +1,8 @@
 
 all: count_lots.csv count_routes.csv count_integrity_violations.csv distribution_number_of_operations_per_lot.csv distribution_number_of_operations_per_route.csv _distribution_number_of_operations_per_lot.svg _distribution_number_of_operations_per_route.svg 
 
-SMN.db: _import2database.sh
+SMN.db: _import2database.sh _postprocess_import.sql _create_smn_table.sql
+	-rm SMN.db
 	sh _import2database.sh
 
 count_lots.csv: SMN.db _count_lots.sql
