@@ -1,0 +1,23 @@
+html, body {
+    width:  210mm;
+    height: 297mm;
+}
+* {font-family: 'Open Sans';}
+
+p {text-align: justify;
+}
+
+figure {
+    display: inline-block;
+}
+figure img {
+    vertical-align: top;
+    width: 80%;
+  	margin: auto;
+  	display: block;
+}
+figure figcaption {
+
+    text-align: center;
+}
+
