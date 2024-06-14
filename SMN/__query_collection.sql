@@ -78,6 +78,26 @@ FROM SMN
 GROUP BY LOT
 ORDER BY num_routes DESC;
 
+
+-- all routes that a lot runs through (consecutive similar routes are filtered out)
+WITH tmp AS (
+    SELECT
+        LOT,
+        ROUTE,
+        TIME_STAMP_UTC,
+        LAG(ROUTE) OVER (PARTITION BY LOT ORDER BY TIME_STAMP_UTC) AS prev
+    FROM SMN
+)
+SELECT
+    LOT,
+    COUNT(DISTINCT ROUTE) as cnt,
+    GROUP_CONCAT(ROUTE) as routes
+FROM tmp
+WHERE ROUTE != prev
+GROUP BY LOT having COUNT(ROUTE) > COUNT(DISTINCT ROUTE)
+ORDER BY TIME_STAMP_UTC;
+
+
 -- count number of lots with more than one route
 WITH tmp AS (
     SELECT LOT
