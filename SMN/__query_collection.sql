@@ -67,3 +67,56 @@ FROM lot_route_operation_pairs
 WHERE prev IS NOT NULL
 GROUP BY ROUTE, gap
 ORDER BY ROUTE, gap;
+
+
+
+SELECT
+    LOT,
+    ROUTE,
+    OPERATION,
+    LAG(OPERATION) OVER (PARTITION BY ROUTE, LOT) AS prev
+FROM SMN
+WHERE EQUIPMENT = 'AUTP';
+
+
+SELECT
+    LOT,
+    COUNT(distinct route) as num_routes,
+    GROUP_CONCAT(DISTINCT ROUTE) as routes
+FROM SMN
+GROUP BY LOT
+ORDER BY num_routes DESC;
+
+With routes_per_lot AS (
+    SELECT
+        LOT,
+        COUNT(distinct route) as num_routes,
+        GROUP_CONCAT(DISTINCT ROUTE) as routes
+    FROM SMN
+    GROUP BY LOT
+)
+SELECT
+    COUNT(*)
+FROM routes_per_lot
+WHERE num_routes > 1;
+
+-- haben lose, die nur eine route haben auch mehr als einen schritt?
+With routes_per_lot AS (
+    SELECT
+        LOT,
+        COUNT(distinct route) as num_routes,
+        GROUP_CONCAT(DISTINCT ROUTE) as routes
+    FROM SMN
+    GROUP BY LOT
+)
+SELECT
+    SMN.LOT,
+    MIN(TIME_STAMP_UTC) as start,
+    MAX(TIME_STAMP_UTC) as end,
+    COUNT(OPERATION) as number_of_steps,
+    UNIXEPOCH(MAX(TIME_STAMP_UTC)) - UNIXEPOCH(MIN(TIME_STAMP_UTC)) as duration_seconds,
+    GROUP_CONCAT(OPERATION)
+FROM SMN
+INNER JOIN routes_per_lot rpl ON rpl.num_routes = 1 AND rpl.LOT = SMN.LOT
+GROUP BY SMN.LOT
+ORDER BY number_of_steps DESC;
