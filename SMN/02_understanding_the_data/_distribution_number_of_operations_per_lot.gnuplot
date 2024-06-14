@@ -1,4 +1,4 @@
-load "_commonstyles.gnuplot"
+load "../_commonstyles.gnuplot"
 
 set datafile separator ','
 set key autotitle columnhead
