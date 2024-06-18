@@ -20,14 +20,14 @@ html_content=$(cat <<EOF
 
   <h2>Visualisierung der Verteilungen der Operationsanzahl</h2>
   <figure> 
-  <img src="probability_of_number_of_operations_per_route.svg"/>
+  <img src="$(realpath "probability_of_number_of_operations_per_route.svg")"/>
     <figcaption> Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Route. 
     Diese Visualisierung zeigt die Verteilung der Häufigkeit, mit der verschiedene 
     Operationszahlen pro Route auftreten. 
     </figcaption>
   </figure>
   <figure> 
-    <img src="probability_of_number_of_operations_per_lot.svg"/>
+    <img src="$(realpath "probability_of_number_of_operations_per_lot.svg")"/>
     <figcaption> Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Los. 
     Diese Visualisierung zeigt die Verteilung der Häufigkeit, mit der verschiedene 
     Operationszahlen pro Los auftreten.
