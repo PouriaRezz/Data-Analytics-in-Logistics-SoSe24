@@ -16,11 +16,9 @@ distribution_number_of_operations_per_route.csv: ../SMN.db _distribution_number_
 	sqlite3 -header -csv ../SMN.db < _distribution_number_of_operations_per_route.sql > distribution_number_of_operations_per_route.csv
 
 probability_of_number_of_operations_per_lot.svg:_distribution_number_of_operations_per_lot.gnuplot
-_distribution_number_of_operations_per_lot.gnuplot:
 	gnuplot _distribution_number_of_operations_per_lot.gnuplot
 
 probability_of_number_of_operations_per_route.svg:_distribution_number_of_operations_per_route.gnuplot
-_distribution_number_of_operations_per_route.gnuplot:
 	gnuplot _distribution_number_of_operations_per_route.gnuplot
 
 section.html: _create_section.sh count_integrity_violations.csv count_lots.csv count_routes.csv probability_of_number_of_operations_per_lot.svg probability_of_number_of_operations_per_route.svg
