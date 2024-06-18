@@ -39,6 +39,6 @@ html_content=$(cat <<EOF
 EOF
 )
 
-echo "$html_content" > report.html
+echo "$html_content" > section.html
 
 echo "HTML file created: report.html"
