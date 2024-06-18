@@ -41,4 +41,4 @@ EOF
 
 echo "$html_content" > section.html
 
-echo "HTML file created: report.html"
+echo "HTML file created: section.html"
