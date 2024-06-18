@@ -1,6 +1,3 @@
-#!/bin/bash
-make
-
 # Definiere statische Teile der HTML-Datei mit Here Documents
 html_content=$(cat <<EOF
 <!DOCTYPE html>
@@ -16,33 +13,12 @@ html_content=$(cat <<EOF
 EOF
 )
 
-# number of lots
-html_content+="<h2>Anzahl der Lose</h1>"
-lineno=2
-file="count_lots.csv"
-line=$(sed -n "${lineno}p" "$file")
-html_content+="<p>Es gibt insgesamt $line Lose im betrachteten Zeitraum.</p>"
+# 01_database_cleanup
+#html_content+='cat 01_database_cleanup/section.html'
 
-# Number of routes
-html_content+="<h2>Anzahl der Routen</h1>"
+# 02_understanding_the_data
+html_content+=$(cat 02_understanding_the_data/section.html)
 
-lineno=2
-file="count_routes.csv"
-line=$(sed -n "${lineno}p" "$file")
-html_content+="<p>Es gibt $line m&ouml;gliche Routen, die ein Los durchlaufen kann.</p>"
-
-
-
-
-bild="<img src="gnuplot/probability_of_number_of_operations_per_route.svg"/>"
-bild="<figure> $bild
-		<figcaption> Dichtefunktion der Anzahl von Operationen pro Route </figcaption></figure>"
-html_content+="$html_content1$bild"
-
-
-
-
-html_content+="<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </p>"
 
 # Füge HTML-Dokumentabschluss hinzu
 html_content+="</body></html>"
