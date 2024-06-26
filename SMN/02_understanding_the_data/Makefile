@@ -23,5 +23,5 @@ probability_of_number_of_operations_per_route.svg:_distribution_number_of_operat
 	gnuplot _distribution_number_of_operations_per_route.gnuplot
 
 section.pdf:count_lots.csv count_routes.csv count_integrity_violations.csv probability_of_number_of_operations_per_route.svg probability_of_number_of_operations_per_route.svg
-	asciidoctor-pdf _section.adoc
+	asciidoctor-pdf -o section.pdf _section.adoc
 	@echo "section.pdf wurde aktualisiert."
