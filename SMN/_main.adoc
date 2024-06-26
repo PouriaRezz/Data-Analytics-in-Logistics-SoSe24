@@ -1,7 +1,6 @@
 :rootpath: ./
 
 = Data Analytics in Logistics: SMN Analyse
-Firstname Lastname <author@asciidoctor.org>
 :toc:
 :sectnums:
 :icons: font
