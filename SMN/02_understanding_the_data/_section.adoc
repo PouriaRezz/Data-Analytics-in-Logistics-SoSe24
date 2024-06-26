@@ -1,0 +1,41 @@
+:path: 02_understanding_the_data
+
+ifdef::rootpath[]
+:imagesdir: {rootpath}{path}
+endif::rootpath[]
+
+== Verständnis des Datensatzes
+
+=== Grundlegende Kennzahlen aus den Fertigungsdaten
+
+Eine umfassende Analyse der vorliegenden Fertigungsdaten ergab folgende grundlegende Kennzahlen:
+
+* Gesamtzahl der Wafer-Chargen (Lots): Der Datensatz umfasst **insgesamt
+include::count_lots.csv[]
+einzigartige Wafer-Chargen**. Eine Wafer-Charge repräsentiert eine Gruppe von Siliziumwafern, die gleichzeitig durch den Chipherstellungsprozess verarbeitet werden.
+* Gesamtzahl der Verarbeitungsrouten: Der Datensatz beinhaltet **
+include::count_routes.csv[]
+verschiedene Verarbeitungsschritte**. Jeder Verarbeitungsschritt stellt eine einzelne Stufe oder Operation dar, die während der Fertigung an den Wafer-Chargen durchgeführt wird.
+* Daten-Integritätsverstöße: Die Analyse identifizierte **
+include::count_integrity_violations.csv[]
+Data-Integritätsverstöße**. Diese Verstöße können Fehler oder Inkonsistenzen in den Daten sein, die deren Genauigkeit oder Zuverlässigkeit beeinträchtigen könnten.
+
+Diese grundlegenden Kennzahlen liefern einen ersten Überblick über die Struktur der Daten und dienen als Ausgangspunkt für weitere Analysen und Optimierungsbemühungen.
+
+=== Visualisierung der Verteilungen der Operationsanzahl pro Route
+
+Um die Komplexität der Verarbeitung pro Route besser zu verstehen, wurden die Daten ausgewertet und als Wahrscheinlichkeitsdichtefunktion visualisiert. Diese Visualisierung zeigt die Verteilung der Häufigkeit, mit der verschiedene Operationszahlen pro Route auftreten.
+
+.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Route:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Route und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 80% der Routen weniger als 200 Operationen umfassen, was darauf hindeutet, dass die meisten Routen relativ einfach zu bewältigen sind. Diese Analyse kann wertvolle Erkenntnisse liefern, um potenzielle Engpässe oder Bereiche für Optimierungen innerhalb des Fertigungsprozesses zu identifizieren.
+image::probability_of_number_of_operations_per_route.svg[]
+
+=== Visualisierung der Verteilungen der Operationsanzahl pro Wafer-Charge
+
+Um die Komplexität der Verarbeitung pro Wafer-Charge zu beurteilen, wurden die Daten ebenfalls als Wahrscheinlichkeitsdichtefunktion visualisiert. Diese Visualisierung zeigt die Verteilung der Häufigkeit, mit der verschiedene Operationszahlen pro Wafer-Charge auftreten.
+
+.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Wafer-Charge:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Wafer-Charge und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 83% der Wafer-Chargen bis zu 220 Operationen erfordern, was darauf hindeutet, dass die meisten Chargen eine moderate Verarbeitungskomplexität aufweisen. Diese Analyse kann hilfreich sein, um die Arbeitslastverteilung über verschiedene Verarbeitungsstationen hinweg zu verstehen und potenzielle Bereiche für Effizienzsteigerungen zu identifizieren.
+image::probability_of_number_of_operations_per_route.svg[]
+
+=== Auswertung der Verteilung der Sortierschritte
+
+Um besser zu verstehen wie die Sortierschritte verteilt sind wurden die Menge an produktiven Schritten zwsichen den Sortierschritten ausgezählt und basierend auf diesen Daten eine Clusteranalyse erstellt. Um diese Analyse weiter zu spezifizieren wurde auf besonders herausstechende Routen genaueres Augenmerk gelegt.
