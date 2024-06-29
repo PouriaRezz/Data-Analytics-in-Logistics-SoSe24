@@ -1,0 +1,11 @@
+SELECT
+    *
+FROM SMN smn1 WHERE (
+    SELECT LOT
+    FROM SMN smn2
+    WHERE smn1.LOT = smn2.LOT
+        AND smn1.OPERATION = smn2.operation
+        AND smn1.ROUTE = smn2.ROUTE
+        AND smn1.TIME_STAMP_UTC != smn2.TIME_STAMP_UTC
+) IS NOT NULL
+ORDER BY LOT, OPERATION, ROUTE;

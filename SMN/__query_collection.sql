@@ -130,3 +130,160 @@ SELECT
 FROM SMN
 GROUP BY SMN.LOT
 ORDER BY number_of_steps DESC;
+
+-- Anteil von Mess- und Sortierschritten in jeder Route
+WITH step_counts AS (
+    SELECT
+        route,
+        COUNT(*) AS total_steps,
+        SUM(CASE WHEN equipment NOT IN ('AUTP', 'MESP') THEN 1 ELSE 0 END) AS productive_steps,
+        SUM(CASE WHEN equipment = 'MESP' THEN 1 ELSE 0 END) AS measurement_steps,
+        SUM(CASE WHEN equipment = 'AUTP' THEN 1 ELSE 0 END) AS sorting_steps
+    FROM
+        SMN
+    GROUP BY
+        route
+),
+proportions AS (
+    SELECT
+        route,
+        productive_steps * 1.0 / total_steps AS productive_proportion,
+        measurement_steps * 1.0 / total_steps AS measurement_proportion,
+        sorting_steps * 1.0 / total_steps AS sorting_proportion
+    FROM
+        step_counts
+)
+SELECT * FROM proportions;
+
+
+
+-- Ausreißer des Produktivanteils
+WITH step_counts AS (
+    SELECT
+        route,
+        COUNT(*) AS total_steps,
+        SUM(CASE WHEN equipment NOT IN ('AUTP', 'MESP') THEN 1 ELSE 0 END) AS productive_steps,
+        SUM(CASE WHEN equipment = 'MESP' THEN 1 ELSE 0 END) AS measurement_steps,
+        SUM(CASE WHEN equipment = 'AUTP' THEN 1 ELSE 0 END) AS sorting_steps
+    FROM
+        SMN
+    GROUP BY
+        route
+),
+proportions AS (
+    SELECT
+        route,
+        productive_steps * 1.0 / total_steps AS productive_proportion,
+        measurement_steps * 1.0 / total_steps AS measurement_proportion,
+        sorting_steps * 1.0 / total_steps AS sorting_proportion,
+        productive_steps,
+        measurement_steps,
+        sorting_steps
+    FROM
+        step_counts
+),
+stats AS (
+    SELECT
+        AVG(productive_proportion) AS avg_prod,
+        STDEV(productive_proportion) AS std_dev_prod
+    FROM
+        proportions
+)
+SELECT
+    p.route,
+    p.productive_proportion,
+    p.measurement_proportion,
+    p.sorting_proportion,
+    p.productive_steps,
+    p.measurement_steps,
+    p.sorting_steps
+FROM
+    proportions p, stats s
+WHERE
+    p.productive_proportion > s.avg_prod + 2 * s.std_dev_prod
+    OR p.productive_proportion < s.avg_prod - 2 * s.std_dev_prod;
+
+
+-- Anzahl sortierschritte pro produktivschritt
+WITH step_counts AS (
+    SELECT
+        lot,
+        SUM(CASE WHEN equipment NOT IN ('AUTP', 'MESP') THEN 1 ELSE 0 END) AS productive_steps,
+        SUM(CASE WHEN equipment = 'AUTP' THEN 1 ELSE 0 END) AS sorting_steps
+    FROM
+        SMN
+    GROUP BY
+        lot
+)
+SELECT
+    lot,
+    sorting_steps,
+    productive_steps,
+    sorting_steps * 1.0 / NULLIF(productive_steps, 0) AS sorting_per_productive
+FROM
+    step_counts
+ORDER BY sorting_per_productive DESC;
+
+
+
+-- Anzahl Sortierschritte pro Messschritt
+WITH step_counts AS (
+    SELECT
+        lot,
+        SUM(CASE WHEN equipment = 'MESP' THEN 1 ELSE 0 END) AS measurement_steps,
+        SUM(CASE WHEN equipment = 'AUTP' THEN 1 ELSE 0 END) AS sorting_steps
+    FROM
+        SMN
+    GROUP BY
+        lot
+)
+SELECT
+    lot,
+    sorting_steps * 1.0 / NULLIF(measurement_steps, 0) AS sorting_per_measurement
+FROM
+    step_counts
+ORDER BY sorting_per_measurement DESC;
+
+
+-- select top x% routes ordered by number of lots that take them
+WITH lots_per_route AS (
+    SELECT
+        ROUTE,
+        COUNT(DISTINCT LOT) as num_lots
+    FROM SMN
+    GROUP BY ROUTE
+)
+SELECT
+    ROUTE,
+    num_lots
+FROM lots_per_route
+ORDER BY num_lots DESC
+LIMIT CAST(0.5*(SELECT COUNT(*) FROM lots_per_route) AS INTEGER);
+
+
+-- select top x% routes ordered by number of executed operations from all lots
+WITH lots_per_route AS (
+    SELECT
+        ROUTE,
+        COUNT(LOT) as operations,
+        COUNT(DISTINCT LOT) as num_lots
+    FROM SMN
+    GROUP BY ROUTE
+)
+SELECT
+    ROUTE,
+    operations,
+    num_lots
+FROM lots_per_route
+ORDER BY operations DESC
+LIMIT CAST(0.5*(SELECT COUNT(*) FROM lots_per_route) AS INTEGER);
+
+
+-- differences between sorting identification
+-- 79.450 Ergebnisse
+SELECT
+    *
+FROM SMN
+WHERE (EQUIPMENT = 'AUTP' AND SPS_NAME != 'ID')
+    OR (EQUIPMENT != 'AUTP' AND SPS_NAME = 'ID');
+
