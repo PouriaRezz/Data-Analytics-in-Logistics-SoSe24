@@ -13,7 +13,7 @@ SMN.db: routes.dat _import2database.sh _postprocess_import.sql _create_smn_table
 	else \
 	  echo "Database do not exist. Now creating...."; \
 	fi
-	-rm 01_database_cleanup/cleanup_needed.csv
+	-rm 01_database_cleanup/cleanup_done.csv
 	sh _import2database.sh
 
 $(SUBDIRS): SMN.db
