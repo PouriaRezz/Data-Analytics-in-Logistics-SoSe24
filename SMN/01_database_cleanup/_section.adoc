@@ -4,28 +4,46 @@ ifdef::rootpath[]
 :imagesdir: {rootpath}{path}
 endif::rootpath[]
 
-== Datenbereinigung: Konzentration auf die potentesten Daten
+== Datenbereinigung: Konzentration auf die aussagekräftigsten Daten
 
-Um die Analyseergebnisse zu optimieren und aussagekräftige Schlussfolgerungen aus den Daten zu ziehen, wurde eine gründliche Datenbereinigung durchgeführt. Dabei wurden Datensätze herausgefiltert, die aufgrund von Inkonsistenzen oder fehlender Relevanz für die Analyse untauglich waren.
+Um die Analyseergebnisse zu optimieren und aussagekräftige Schlussfolgerungen aus den Daten zu ziehen, wurde eine Datenbereinigung durchgeführt. Dabei wurden Datensätze herausgefiltert, die aufgrund von Inkonsistenzen oder fehlender Relevanz für die Analyse untauglich waren.
+
+=== Auswahl der frequentiertesten Routen
+
+Damit unsere Analysen auf einer ausreichenden Datengrundlage beruhen, werden Routen, die nur von wenigen Losen durchlaufen werden herausgefiltert.
+Es werden das am wenigsten frequentierte Drittel der Routen entfernt. Dabei werden Routen entfernt, die von weniger als
+**
+include::select_limit_unfrequent_routes.csv[]
+Losen**
+durchlaufen werden entfernt, wodurch
+**
+include::count_items_unfrequent_routes.csv[]
+Routen**
+und somit
+**
+include::count_rows_unfrequent_routes.csv[]
+Zeilen**
+entfernt werden.
+
 
 === Entfernen von unvollständig dokumentierten Losen
 
-Da unser Datensatz ab dem 22.09.2022 alle Vorgänge dokumentiert, die Produktion allerdings schon davor lief, gibt es im Datensatz Lots, die vor Beginn der Dokumentierung begonnen wurden. Diese sind jene Lots deren erste Erscheinung einen Operations-Counter größer als 1 hat. Dabei handelt es sich um **
+Da unser Datensatz ab dem 22.09.2022 alle Vorgänge dokumentiert, die Produktion allerdings schon davor lief, gibt es im Datensatz Lose, die vor Beginn der Dokumentierung begonnen wurden. Diese sind jene Lose deren erste Erscheinung einen Operations-Counter größer als 1 hat. Dabei handelt es sich um **
 include::count_items_lots_that_do_not_start_with_operation_1.csv[]
 Lose** und es werden **
 include::count_rows_lots_that_do_not_start_with_operation_1.csv[]
 Zeilen** aus der Datenbank entfernt.
 
-=== Entfernen aller Lose, die mehrere Routen durchlaufen
-
-Die Daten enthalten Lose, die mehrere Routen durchlaufen. Da ein Los dabei einzelne Operationen von einer Route mit Schritten einer anderen Route vermischt, werden diejenigen Lose, die mehrere Routen durchlaufen aus den Daten entfernt. Es handelt sich dabei um **
-include::count_rows_lots_that_run_several_routes.csv[]
-Lose**, wodurch **
-include::count_items_lots_that_run_several_routes.csv[]
-Zeilen** entfernt werden.
+// === Entfernen aller Lose, die mehrere Routen durchlaufen
+//
+// Die Daten enthalten Lose, die mehrere Routen durchlaufen. Da ein Los dabei einzelne Operationen von einer Route mit Schritten einer anderen Route vermischt, werden diejenigen Lose, die mehrere Routen durchlaufen aus den Daten entfernt. Es handelt sich dabei um **
+// include::count_items_lots_that_run_several_routes.csv[]
+// Lose**, wodurch **
+// include::count_rows_lots_that_run_several_routes.csv[]
+// Zeilen** entfernt werden.
 
 === Entfernen aller duplizierten Operationen
-TODO
+TODO: Warten auf aktualisierte Daten mit `OWNER` Spalte
 
 '''
 Durch die Anwendung dieser Filterkriterien wurde der ursprüngliche Datensatz bereinigt. Durch diese Bereinigungsmaßnahmen reduziert sich die Datenmenge auf **
