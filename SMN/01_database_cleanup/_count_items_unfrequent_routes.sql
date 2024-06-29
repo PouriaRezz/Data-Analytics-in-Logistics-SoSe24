@@ -6,7 +6,7 @@ WITH selected_num_lots AS (
     FROM SMN
     GROUP BY ROUTE
     ORDER BY num_lots ASC
-    LIMIT CAST(0.33*(SELECT COUNT(DISTINCT SMN.ROUTE) FROM SMN) AS INTEGER)
+    LIMIT CAST(0.2*(SELECT COUNT(DISTINCT SMN.ROUTE) FROM SMN) AS INTEGER)
 ), lot_threshold AS (
     SELECT
         MAX(num_lots) threshold
