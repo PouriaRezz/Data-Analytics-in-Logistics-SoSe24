@@ -1,0 +1,2 @@
+SELECT COUNT(DISTINCT LOT) as Number_Of_Lots
+FROM SMN;
