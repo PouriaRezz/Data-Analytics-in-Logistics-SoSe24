@@ -22,12 +22,23 @@ proportions AS (
     FROM
         step_counts
 ),
-stats AS (
+avg_calc AS (
     SELECT
-        AVG(productive_proportion) AS avg_prod,
-        STDEV(productive_proportion) AS std_dev_prod
+        AVG(productive_proportion) AS avg_prod
     FROM
         proportions
+),
+var_calc AS (
+    SELECT
+        AVG((productive_proportion - (SELECT avg_prod FROM avg_calc)) * (productive_proportion - (SELECT avg_prod FROM avg_calc))) AS var_prod
+    FROM
+        proportions
+),
+std_dev_calc AS (
+    SELECT
+        SQRT(var_prod) AS std_dev_prod
+    FROM
+        var_calc
 )
 SELECT
     p.route,
@@ -38,8 +49,9 @@ SELECT
     p.measurement_steps,
     p.sorting_steps
 FROM
-    proportions p, stats s
+    proportions p,
+    avg_calc a,
+    std_dev_calc s
 WHERE
-    p.productive_proportion > s.avg_prod + 2 * s.std_dev_prod
-    OR p.productive_proportion < s.avg_prod - 2 * s.std_dev_prod;
-
+    p.productive_proportion > a.avg_prod + 2 * s.std_dev_prod
+    OR p.productive_proportion < a.avg_prod - 2 * s.std_dev_prod;
