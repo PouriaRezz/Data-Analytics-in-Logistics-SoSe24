@@ -26,7 +26,7 @@ Zeilen**
 entfernt werden.
 
 
-=== Entfernen von unvollständig dokumentierten Los
+=== Entfernen von unvollständig dokumentierten Losen
 
 Da unser Datensatz ab dem 22.09.2022 alle Vorgänge dokumentiert, die Produktion allerdings schon davor lief, gibt es im Datensatz Lose, die vor Beginn der Dokumentierung begonnen wurden. Diese sind jene Lose deren erste Erscheinung einen Operations-Counter größer als 1 hat. Dabei handelt es sich um **
 include::count_items_lots_that_do_not_start_with_operation_1.csv[]
