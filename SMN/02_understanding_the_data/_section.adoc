@@ -26,7 +26,7 @@ Diese grundlegenden Kennzahlen liefern einen ersten Überblick über die Struktu
 
 Um die Komplexität der Verarbeitung pro Route besser zu verstehen, wurden die Daten ausgewertet und als Wahrscheinlichkeitsdichtefunktion visualisiert. Diese Visualisierung zeigt die Verteilung der Häufigkeit, mit der verschiedene Operationszahlen pro Route auftreten.
 
-.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Route:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Route und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 80% der Routen weniger als 200 Operationen umfassen, was darauf hindeutet, dass die meisten Routen relativ einfach zu bewältigen sind. Diese Analyse kann wertvolle Erkenntnisse liefern, um potenzielle Engpässe oder Bereiche für Optimierungen innerhalb des Fertigungsprozesses zu identifizieren.
+.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Route:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Route und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 80% der Routen weniger als 200 Operationen umfassen. Diese Analyse kann wertvolle Erkenntnisse liefern, um potenzielle Engpässe oder Bereiche für Optimierungen innerhalb des Fertigungsprozesses zu identifizieren.
 image::probability_of_number_of_operations_per_route.svg[]
 
 === Visualisierung der Verteilungen der Operationsanzahl pro Los
