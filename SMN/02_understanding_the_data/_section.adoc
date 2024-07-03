@@ -38,4 +38,4 @@ image::probability_of_number_of_operations_per_route.svg[]
 
 === Auswertung der Verteilung der Sortierschritte
 
-Um besser zu verstehen, wie die Sortierschritte verteilt sind wurden die Menge an produktiven Schritten zwischen den Sortierschritten ausgezählt und basierend auf diesen Daten eine Clusteranalyse erstellt. Um diese Analyse weiter zu spezifizieren wurde auf besonders herausstechende Routen genaueres Augenmerk gelegt.
+Um besser zu verstehen, wie die Sortierschritte verteilt sind wurden die Menge an produktiven Schritten zwischen den Sortierschritten ausgezählt und basierend auf diesen Daten eine Visualisierung erstellt.
