@@ -41,6 +41,6 @@ cleanup_done.csv: \
 count_leftover_rows.csv: cleanup_done.csv
 	sqlite3 -csv ../SMN.db < _count_leftover_rows.sql > count_leftover_rows.csv
 
-section.pdf: count_leftover_rows.csv
+section.pdf: count_leftover_rows.csv _section.adoc
 	asciidoctor-pdf -o section.pdf _section.adoc
 	@echo "database_cleanup: section.pdf wurde aktualisiert."
