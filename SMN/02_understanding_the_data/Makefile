@@ -37,6 +37,12 @@ probability_of_number_of_operations_per_lot.svg:_distribution_number_of_operatio
 probability_of_number_of_operations_per_route.svg:_distribution_number_of_operations_per_route.gnuplot
 	gnuplot _distribution_number_of_operations_per_route.gnuplot
 
-section.pdf:count_lots.csv count_routes.csv count_integrity_violations.csv probability_of_number_of_operations_per_route.svg probability_of_number_of_operations_per_route.svg _section.adoc
+routes_with_high_sort_per_productive.csv: _distribution_sort_per_productive.py
+	python3 _distribution_sort_per_productive.py
+
+Highest_sort_per_productive.csv: _routes_with_high_sort_per_productive.py routes_with_high_sort_per_productive.csv
+	python3 _routes_with_high_sort_per_productive.py
+
+section.pdf:count_lots.csv count_routes.csv count_integrity_violations.csv probability_of_number_of_operations_per_route.svg probability_of_number_of_operations_per_route.svg _section.adoc Highest_sort_per_productive.csv
 	asciidoctor-pdf -o section.pdf _section.adoc
 	@echo "section.pdf wurde aktualisiert."
