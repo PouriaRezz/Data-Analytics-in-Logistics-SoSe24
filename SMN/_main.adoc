@@ -15,7 +15,7 @@ Folgende Punkte sind bei der Interpretation der Daten zu beachten:
 * OPERATION: Eine Operation ist ein Prozessierungsschritt innerhalb einer Route. Die Operations sollten in zeitlich aufsteigender Folge absolviert werden.
 * SPS_NAME: Dies ist der Typ des Prozessierungsschritts. Sortierschritte sollten mit „ID“ beginnen.
 * EQUIPMENT: Dies ist der Typ des Tools, das in diesem Prozessierungsschritt eingesetzt wird. Bei Sortierschritten sollte er „AUTP“ lauten. Messschritte sind mit „MESP“ gekennzeichnet, sie dienen der Qualitätssicherung und können ggf. ausgelassen werden.
-* SORTER_JOB_COMPLETE_INCON_SRC: Dies ist das Ergebnis eines Sortierschritts. Ein Wert größer als 1 kennzeichnet eine Losintegritätsverletzung.footnote:[OPAL-Kurs: Wiki: Rohdaten: SMN]
+* SORTER_JOB_COMPLETE_INCON_SRC: Dies ist das Ergebnis eines Sortierschritts. Ein Wert größer als 1 kennzeichnet eine Losintegritätsverletzung.
 
 Diesen Datensatz gilt es hinsichtlich der Prozessoptimierung sowie weiteren Auffälligkeiten zu analysieren.
 
