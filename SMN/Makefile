@@ -20,4 +20,8 @@ $(SUBDIRS): SMN.db
 	$(MAKE) -C $@
 
 
+clean:
+	find . -type f ! -name "_*" ! -name "Makefile" ! -name "routes.dat" ! -name "README.md" | xargs rm
+
+
 .PHONY: all $(SUBDIRS)
