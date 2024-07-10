@@ -6,7 +6,7 @@ WITH selected_num_lots AS (
     FROM SMN
     GROUP BY ROUTE
     ORDER BY num_lots ASC
-    LIMIT CAST(0.2*(SELECT COUNT(DISTINCT SMN.ROUTE) FROM SMN) AS INTEGER)
+    LIMIT CAST(0.5*(SELECT COUNT(DISTINCT SMN.ROUTE) FROM SMN) AS INTEGER)
 ), lot_threshold AS (
     SELECT
         MAX(num_lots) threshold
@@ -19,6 +19,8 @@ WITH selected_num_lots AS (
     HAVING COUNT(DISTINCT LOT) < threshold
 )
 SELECT
-    COUNT(*)
+    COUNT(DISTINCT ROUTE)
 FROM SMN
 WHERE ROUTE IN (SELECT ROUTE FROM filtered_out_routes);
+-- ja, dieser letzte Teil ist umständlich, aber ein SELECT COUNT(*) FROM filtered_out_routes hat nicht terminiert...
+
