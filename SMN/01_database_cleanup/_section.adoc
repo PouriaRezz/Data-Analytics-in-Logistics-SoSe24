@@ -11,7 +11,7 @@ Um die Analyseergebnisse zu optimieren und aussagekräftige Schlussfolgerungen a
 === Auswahl der frequentiertesten Routen
 
 Damit unsere Analysen auf einer ausreichenden Datengrundlage beruhen, werden Routen, die nur von wenigen Losen durchlaufen werden herausgefiltert.
-Es werden die am wenigsten frequentierten 20 % der Routen entfernt. Dabei werden Routen entfernt, die von weniger als
+Es werden die am wenigsten frequentierten 50 % der Routen entfernt. Dabei werden Routen entfernt, die von weniger als
 **
 include::select_limit_unfrequent_routes.csv[]
 Losen**
