@@ -35,6 +35,9 @@ cleanup_done.csv: \
 	@echo "Removing lots that started before our timeframe"
 	sqlite3 ../SMN.db < _delete_lots_that_do_not_start_with_operation_1.sql
 
+	@echo "Delete data records which the number of different operations per route is less than 100"
+	sqlite3 ../SMN.db < _delete_short_route.sql
+
 #	@echo "Removing Lots that run several routes"
 #	sqlite3 ../SMN.db < _delete_lots_that_run_several_routes.sql
 
