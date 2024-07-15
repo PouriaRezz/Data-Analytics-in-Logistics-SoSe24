@@ -42,8 +42,17 @@ Zeilen** aus der Datenbank entfernt.
 // include::count_rows_lots_that_run_several_routes.csv[]
 // Zeilen** entfernt werden.
 
-=== Entfernen aller duplizierten Operationen
-TODO: Warten auf aktualisierte Daten mit `OWNER` Spalte
+=== Entfernen von kurzen Routen
+Routen mit wenigen Operationen wurden entfernt, um Routen mit unzureichender Datengrundlage aus der Analyse auszuschließen. Dabei wurde ein Schwellwert von 100 Operationen gewählt.
+Es werden **
+include::count_items_short_routes.csv[]
+Routen** und damit **
+include::count_rows_short_routes.csv[]
+Zeilen** entfernt.
+
+=== Entfernen aller Operationen mit Inkonsistenzen in Operationszähler und Zeitstempel
+Fehlt noch (Probleme mit Query)
+// TODO _count_rows_unordered_operations
 
 '''
 Durch die Anwendung dieser Filterkriterien wurde der ursprüngliche Datensatz bereinigt. Durch diese Bereinigungsmaßnahmen reduziert sich die Datenmenge auf **
