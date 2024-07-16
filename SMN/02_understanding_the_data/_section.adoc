@@ -38,4 +38,17 @@ image::probability_of_number_of_operations_per_route.svg[]
 
 === Auswertung der Verteilung der Sortierschritte
 
-Um besser zu verstehen, wie die Sortierschritte verteilt sind wurden die Menge an produktiven Schritten zwischen den Sortierschritten ausgezählt und basierend auf diesen Daten eine Visualisierung erstellt.
+Um besser zu verstehen, wie die Sortierschritte verteilt sind wurden die Menge an produktiven Schritten im Verhältnis zu den Sortierschritten für alle Lose ausgezählt und basierend auf diesen Daten eine Visualisierung erstellt.
+
+.Der Graph ist ein Histogramm, welches die Sortierschritte pro produktiven Schritt von allen Losen in Abschnitte unterteilt und in Form von Balken darstellt. Je höher der Balken, desto mehr Lose hatten diesen Wert an Sortierschritten pro produktive Schritte. Als Vergleich wurde mit dem _roten_ Graphen eine möglichst ähnliche Gaussche Verteilung herangezogen.
+image::distribution_sort_per_productive.png[]
+
+==== Routen mit den meisten Sortierschritten pro Produktivschritt
+
+Um genauer auf die Routen einzugehen zu können, die durch das größte Verhältnis aus Sortierschritten pro Produktionsschritt hervorstechen, haben wir die Lose, die die meisten Sortierschritte pro Produktivschritt haben, ihren Routen zugeordnet und tabellarisch dargestellt.
+
+.*ROUTE* bezeichnet dabei den einzigartigen Identifier der Route und *COUNT* von wie vielen Lots die Route in unserem Datensatz durchfahren wird.
+[%header, format=csv]
+|===
+include::routes_with_high_sort_per_productive.csv[]
+|===
