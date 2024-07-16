@@ -3,6 +3,7 @@
 = Data Analytics in Logistics: SMN Analyse
 :toc:
 :toclevels: 4
+:toc-title: Inhaltsverzeichnis
 :sectnums:
 :icons: font
 
