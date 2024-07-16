@@ -44,7 +44,7 @@ image::probability_of_number_of_operations_per_lot.svg[]
 
 === Verteilung der Sortierschritte
 
-Um besser zu verstehen, wie die Sortierschritte verteilt haben wir die Verteilung dieser visualisiert.
+Um besser zu verstehen, wie die Sortierschritte verteilt sind haben wir die Verteilung dieser visualisiert.
 
 * Als Produktivschritte werden all jene gewertet, die keiner Operation der Typen 'AUTP' (Sortierschritte) oder 'MESP' (Messschritte), sind.
 * Als Sortierschritte werden all jene gewertet, die Operationen des Typs 'AUTP' sind.
