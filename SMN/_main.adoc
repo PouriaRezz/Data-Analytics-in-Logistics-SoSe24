@@ -1,6 +1,6 @@
 :rootpath: ./
 
-= Data Analytics in Logistics: SMN Analyse
+= Data Analytics in Logistics: Analyse eines SMN-Datensatzes
 :toc:
 :toclevels: 4
 :toc-title: Inhaltsverzeichnis
