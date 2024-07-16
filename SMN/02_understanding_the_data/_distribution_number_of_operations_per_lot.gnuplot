@@ -1,7 +1,8 @@
 load "../_commonstyles.gnuplot"
 
 set datafile separator ','
-set key autotitle columnhead
+
+set nokey
 
 set yrange [0:1]
 

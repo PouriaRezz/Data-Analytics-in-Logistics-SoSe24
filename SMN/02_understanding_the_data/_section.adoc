@@ -15,26 +15,32 @@ include::count_lots.csv[]
 einzigartige Lose**. Ein Los repräsentiert eine Gruppe von Siliziumwafern, die gleichzeitig durch den Chipherstellungsprozess verarbeitet werden.
 * Gesamtzahl der Verarbeitungsrouten: Der Datensatz beinhaltet **
 include::count_routes.csv[]
-verschiedene Verarbeitungsschritte**. Jeder Verarbeitungsschritt stellt eine einzelne Stufe oder Operation dar, die während der Fertigung an den Wafer-Chargen durchgeführt wird.
-* Daten-Integritätsverstöße: Die Analyse identifizierte **
+verschiedene Routen**.
+* Los-Integritätsverstöße: Die Analyse identifizierte **
 include::count_integrity_violations.csv[]
-Data-Integritätsverstöße**. Diese Verstöße können Fehler oder Inkonsistenzen in den Daten sein, die deren Genauigkeit oder Zuverlässigkeit beeinträchtigen könnten.
+Los-Integritätsverstöße**.
 
-Diese grundlegenden Kennzahlen liefern einen ersten Überblick über die Struktur der Daten und dienen als Ausgangspunkt für weitere Analysen und Optimierungsbemühungen.
+Diese grundlegenden Kennzahlen liefern einen ersten Überblick über die Struktur der Daten, insbesondere um eine grobe Idee des Verhältnisses zwischen Routen & Losen, und dienen als Ausgangspunkt für weitere Analysen und Optimierungsbemühungen.
+
+<<<
 
 === Visualisierung der Verteilungen der Operationsanzahl pro Route
 
 Um die Komplexität der Verarbeitung pro Route besser zu verstehen, wurden die Daten ausgewertet und als Wahrscheinlichkeitsdichtefunktion visualisiert. Diese Visualisierung zeigt die Verteilung der Häufigkeit, mit der verschiedene Operationszahlen pro Route auftreten.
 
-.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Route:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Route und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 80% der Routen weniger als 200 Operationen umfassen. Diese Analyse kann wertvolle Erkenntnisse liefern, um potenzielle Engpässe oder Bereiche für Optimierungen innerhalb des Fertigungsprozesses zu identifizieren.
+.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Route:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Route und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 80% der Routen weniger als 250 Operationen umfassen. Diese Analyse kann uns helfen, eine spezifische Route im Gesamtkontext bezüglich der Operationszahl einzuordnen.
 image::probability_of_number_of_operations_per_route.svg[]
+
+<<<
 
 === Visualisierung der Verteilungen der Operationsanzahl pro Los
 
 Um die Komplexität der Verarbeitung pro Los zu beurteilen, wurden die Daten ebenfalls als Wahrscheinlichkeitsdichtefunktion visualisiert. Diese Visualisierung zeigt die Verteilung der Häufigkeit, mit der verschiedene Operationszahlen pro Los auftreten.
 
-.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Los:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Los und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 83% der Lose bis zu 220 Operationen erfordern, was darauf hindeutet, dass die meisten Lose eine moderate Verarbeitungskomplexität aufweisen. Diese Analyse kann hilfreich sein, um die Arbeitslastverteilung über verschiedene Verarbeitungsstationen hinweg zu verstehen und potenzielle Bereiche für Effizienzsteigerungen zu identifizieren.
-image::probability_of_number_of_operations_per_route.svg[]
+.*Wahrscheinlichkeitsdichtefunktion der Operationsanzahl pro Los:* Diese Visualisierung veranschaulicht die Verteilung der Operationsanzahl pro Los und verdeutlicht die Wahrscheinlichkeit, auf verschiedene Operationszahlen zu stoßen. Es wird deutlich, dass 80% der Lose unter 200 Operationen durchlaufen. Diese Analyse kann uns helfen, ein spezifisches Los im Gesamtkontext bezüglich der Operationszahl einzuordnen.
+image::probability_of_number_of_operations_per_lot.svg[]
+
+<<<
 
 === Auswertung der Verteilung der Sortierschritte
 
@@ -42,6 +48,8 @@ Um besser zu verstehen, wie die Sortierschritte verteilt sind wurden die Menge a
 
 .Der Graph ist ein Histogramm, welches die Sortierschritte pro produktiven Schritt von allen Losen in Abschnitte unterteilt und in Form von Balken darstellt. Je höher der Balken, desto mehr Lose hatten diesen Wert an Sortierschritten pro produktive Schritte. Als Vergleich wurde mit dem _roten_ Graphen eine möglichst ähnliche Gaussche Verteilung herangezogen.
 image::distribution_sort_per_productive.png[]
+
+<<<
 
 ==== Routen mit den meisten Sortierschritten pro Produktivschritt
 
