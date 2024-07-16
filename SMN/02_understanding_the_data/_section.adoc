@@ -42,9 +42,16 @@ image::probability_of_number_of_operations_per_lot.svg[]
 
 <<<
 
-=== Auswertung der Verteilung der Sortierschritte
+=== Verteilung der Sortierschritte
 
-Um besser zu verstehen, wie die Sortierschritte verteilt sind wurden die Menge an produktiven Schritten im Verhältnis zu den Sortierschritten für alle Lose ausgezählt und basierend auf diesen Daten eine Visualisierung erstellt.
+Um besser zu verstehen, wie die Sortierschritte verteilt haben wir die Verteilung dieser visualisiert.
+
+* Als Produktivschritte werden all jene gewertet, die keiner Operation der Typen 'AUTP' (Sortierschritte) oder 'MESP' (Messschritte), sind.
+* Als Sortierschritte werden all jene gewertet, die Operationen des Typs 'AUTP' sind.
+
+_Typ meint hierbei den Eintrag 'EQUIPMENT' jedes Datensatzes im Datensatz._
+
+Als ausschlaggebendes Maß haben wir uns für das Verhältnis zwischen Sortierschritten zu Produktivschritten entschieden.
 
 .Der Graph ist ein Histogramm, welches die Sortierschritte pro produktiven Schritt von allen Losen in Abschnitte unterteilt und in Form von Balken darstellt. Je höher der Balken, desto mehr Lose hatten diesen Wert an Sortierschritten pro produktive Schritte. Als Vergleich wurde mit dem _roten_ Graphen eine möglichst ähnliche Gaussche Verteilung herangezogen.
 image::distribution_sort_per_productive.png[]
