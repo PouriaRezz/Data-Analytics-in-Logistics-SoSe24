@@ -53,14 +53,14 @@ _Typ meint hierbei den Eintrag 'EQUIPMENT' jedes Datensatzes im Datensatz._
 
 Als ausschlaggebendes Maß haben wir uns für das Verhältnis zwischen Sortierschritten zu Produktivschritten entschieden.
 
-.Der Graph ist ein Histogramm, welches die Sortierschritte pro produktiven Schritt von allen Losen in Abschnitte unterteilt und in Form von Balken darstellt. Je höher der Balken, desto mehr Lose hatten diesen Wert an Sortierschritten pro produktive Schritte. Als Vergleich wurde mit dem _roten_ Graphen eine möglichst ähnliche Gaussche Verteilung herangezogen.
+.Der Graph ist ein Histogramm, welches die Sortierschritte pro produktiven Schritt von allen Losen in Klassen unterteilt und in Form von Balken darstellt. Je höher der Balken, desto mehr Lose sind in der jeweiligen Klasse (Sortierschritten pro produktive Schritte) gelandet. Als Vergleich wurde mit dem _roten_ Graphen eine möglichst ähnliche Gaussche Verteilung herangezogen.
 image::distribution_sort_per_productive.png[]
 
 <<<
 
 ==== Routen mit den meisten Sortierschritten pro Produktivschritt
 
-Um genauer auf die Routen einzugehen zu können, die durch das größte Verhältnis aus Sortierschritten pro Produktionsschritt hervorstechen, haben wir die Lose, die die meisten Sortierschritte pro Produktivschritt haben, ihren Routen zugeordnet und tabellarisch dargestellt.
+Um genauer auf die Routen eingehen zu können, welche durch das größte Verhältnis aus Sortierschritten pro Produktionsschritt hervorstechen, haben wir die Lose, welche die meisten Sortierschritte pro Produktivschritt haben, ihren Routen zugeordnet und tabellarisch dargestellt.
 
 .*ROUTE* bezeichnet dabei den einzigartigen Identifier der Route und *COUNT* von wie vielen Lots die Route in unserem Datensatz durchfahren wird.
 [%header, format=csv]
