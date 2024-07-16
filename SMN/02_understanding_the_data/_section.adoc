@@ -62,7 +62,7 @@ image::distribution_sort_per_productive.png[]
 
 Um genauer auf die Routen eingehen zu können, welche durch das größte Verhältnis aus Sortierschritten pro Produktionsschritt hervorstechen, haben wir die Lose, welche die meisten Sortierschritte pro Produktivschritt haben, ihren Routen zugeordnet und tabellarisch dargestellt.
 
-.*ROUTE* bezeichnet dabei den einzigartigen Identifier der Route und *COUNT* von wie vielen Lots die Route in unserem Datensatz durchfahren wird.
+.*ROUTE* bezeichnet dabei den einzigartigen Identifier der Route und *COUNT* von wie vielen Lots die Route in unserem Datensatz durchfahren wird. Die Tabelle ist nach der COUNT-Spalte absteigend sortiert und umfasst die Routen der 975 Lose mit den höchsten Sortierschritten pro Produktivschritt.
 [%header, format=csv]
 |===
 include::routes_with_high_sort_per_productive.csv[]
