@@ -1,0 +1,382 @@
+# Pakete installieren
+install.packages(dplyr)
+install.packages(tidyr)
+install.packages(ggplot2)
+install.packages(pwr)
+
+# Pakete laden
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(pwr)
+
+# Daten einlesen
+routes_original - read.table(routes.dat, header = TRUE, sep = t)
+routes - read.table(routes.dat, header = TRUE, sep = t)
+
+
+# Nicht benötigte Variablen löschen (OPERATOR, TIME_STAMP und SORTER_JOB_COMPLETE)
+routes - routes %%
+  select(-OPERATOR, -SORTER_JOB_COMPLETE_INCON_SRC, -TIME_STAMP_UTC)
+
+
+# Überprüfen der bereinigten Daten
+head(routes)
+
+
+# Anzahl der Routen berechnen
+num_routes - routes %%
+  summarise(Anzahl_Routen = n_distinct(ROUTE))
+
+print(num_routes)
+
+# Routen nach Häufigkeit sortiert
+route_frequencies - routes %%
+  count(ROUTE) %%
+  arrange(desc(n))
+
+print(route_frequencies)
+
+
+# Häufigkeit Equipments anzeigen
+
+equipment_counts - routes %%
+  count(EQUIPMENT) %%
+  arrange(desc(n))
+
+print(equipment_counts)
+
+
+# Häufigkeit der unterschiedlichen Sortierschritttypen anzeigen 
+sps_names - c(ID, AH, IN, ST, ME, DD, no)
+
+filtered_data - routes %%
+  filter(EQUIPMENT == AUTP & SPS_NAME %in% sps_names)
+
+filtered_data - filtered_data %%
+  mutate(SPS_NAME = ifelse(SPS_NAME %in% c(ME, DD), ME+DD, SPS_NAME))
+
+sps_name_counts - filtered_data %%
+  group_by(SPS_NAME) %%
+  summarize(count = n(), .groups = 'drop') %%
+  arrange(desc(count))
+
+total_counts - sum(sps_name_counts$count)
+
+sps_name_percentages - sps_name_counts %%
+  mutate(percent = (count  total_counts)  100)
+
+print(sps_name_percentages)
+
+
+# Balkendiagramme tatsächliche und relative Häufigkeit von AUTP und MESP auf Routen mit n  60.000
+route_counts - routes %%
+  group_by(ROUTE) %%
+  summarize(total_operations = n(), .groups = 'drop')
+
+filtered_routes - route_counts %%
+  filter(total_operations = 60000) %%
+  select(ROUTE)
+
+filtered_data - routes %%
+  filter(ROUTE %in% filtered_routes$ROUTE)
+
+equipment_counts - filtered_data %%
+  filter(EQUIPMENT %in% c(AUTP, MESP)) %%
+  group_by(ROUTE, EQUIPMENT) %%
+  summarize(count = n(), .groups = 'drop')
+
+total_counts - filtered_data %%
+  group_by(ROUTE) %%
+  summarize(total_count = n(), .groups = 'drop')
+
+equipment_counts - equipment_counts %%
+  left_join(total_counts, by = ROUTE) %%
+  arrange(desc(total_count))
+
+ggplot(equipment_counts, aes(x = reorder(ROUTE, -total_count), y = count, fill = EQUIPMENT)) +
+  geom_bar(stat = identity, position = stack) +
+  labs(title = Häufigkeit der Equipments AUTP und MESP pro Route,
+       x = Route,
+       y = Häufigkeit) +
+  theme_minimal() +
+  scale_fill_brewer(palette = Set1) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+equipment_percentages - equipment_counts %%
+  mutate(percent = (count  total_count)  100)
+
+ggplot(equipment_percentages, aes(x = reorder(ROUTE, -total_count), y = percent, fill = EQUIPMENT)) +
+  geom_bar(stat = identity, position = stack) +
+  labs(title = Prozentuale Anteile der Equipments AUTP und MESP am Gesamtvolumen pro Route,
+       x = Route,
+       y = Prozent) +
+  theme_minimal() +
+  scale_fill_brewer(palette = Set1) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+# Alle Lose löschen, die mehr als eine Route befahren
+# - Reduktion unseres Gesamtvolumens von 6.360.823 auf 3.701.330 (= 58,19%)
+lot_route_counts - routes %%
+  group_by(LOT) %%
+  summarize(route_count = n_distinct(ROUTE))
+
+single_route_lots - lot_route_counts %%
+  filter(route_count == 1) %%
+  select(LOT)
+
+routes - routes %%
+  semi_join(single_route_lots, by = LOT)
+
+
+# Häufigkeit des Auftretens einzelner Tools nach Datenreduktion_1 berechnen
+equipment_counts - routes %%
+  count(EQUIPMENT) %%
+  arrange(desc(n))
+
+print(equipment_counts)
+
+
+# Doppelte Operationen löschen (gleiches Los, gleiche Operation, gleiches Equipment)
+# - Reduktion des Gesamtvolumens auf 3.331.538 (= 52,38%)
+routes - routes %%
+  distinct(LOT, OPERATION, EQUIPMENT, .keep_all = TRUE)
+
+
+# Häufigkeit des Auftretens einzelner Tools nach Datenreduktion_2 berechnen
+equipment_counts - routes %%
+  count(EQUIPMENT) %%
+  arrange(desc(n))
+
+print(equipment_counts)
+
+
+# Rauschmeißen der Routen, die weniger als 1% am Gesamtvolumen haben
+# - Reduktion des Gesamtvolumens auf 2.132.823 (= 33,53 %)
+routes - routes %%
+  group_by(ROUTE) %%
+  filter(n() = 33153) %%
+  ungroup()
+route_counts - routes %%
+  count(ROUTE) %%
+  arrange(desc(n))
+
+print(n = 40, route_counts)
+
+
+# Häufigkeit des Auftretens einzelner Tools nach Datenreduktion_3 berechnen
+equipment_counts - routes %%
+  count(EQUIPMENT) %%
+  arrange(desc(n))
+
+print(equipment_counts)
+
+
+# Hier bleiben von 275 Routen 25 übrig, vor der Reduktion waren die Messchritte 
+# auf Rang 1 der meisten Operationen am Gesamtvolumen (n = 1.714.229  26,95 %), die Sortierschritte
+# waren auf Rang 5 (n = 407.902  6,41 %), nach der Reduktion liegen die Messschritte auf Platz 2 der
+# meisten Operationen (n = 425.073  19,93 %), die Sortierschritte fallen auf Platz 6 (n = 146.598  6,87 %),
+# Auffallend hierbei ist, dass die Datenreduktion den relativen Anteil der Sortierschritte nicht nennenswert
+# verändert, während der Anteil der Messschritte um 7 % fällt.
+# Dies kann 3 Gründe haben
+# 1. Lose, die Routen wechseln, werden häufiger gemessen, aber nicht sortiert (wenn ja, warum).
+# 2. Messungen werden gehäuft hintereinander durchgeführt (unterschiedliche Messungen).
+# 3. Weniger stark frequentierte Routen haben ein höheres Messaufkommen (gibt es eventuell dedizierte Messrouten).
+# Überprüfen
+# 1. Nach dem Löschen aller Lose, die mehr als eine Route befahren, haben wir folgenden Anteil an Messschritten
+# MESP (n = 964.064  26,07 %) - Nicht auffällig
+# 2. Nach dem Löschen aller doppelter Operationen haben wir folgenden Anteil an Messschritten
+# MESP (n = 704.266  21,14 %) - Es wird wohl oft direkt hintereinander mehrmals gemessen, ist das sinnvoll
+# 3. Nach dem Löschen aller wenig frequentierten Routen haben wir folgenden Anteil an Messschritten
+# MESP (n = 425.073  19,93 %) - Schwächere Reduktion als in Schritt 2, trotzdem vorhanden, auf kleinen Routen
+# wird eher mehr gemessen als auf Großen.
+
+# Häufigkeit der übrigen Routen berechnen
+route_frequencies - routes %%
+  count(ROUTE)
+
+
+# Datensatz für Messschritte  Arbeitsschritte (ohne Sortierschritte)
+routes_no_AUTP - routes %%
+  filter(EQUIPMENT != AUTP)
+
+
+# Datensatz für Sortierschritte  Arbeitsschritte (ohne Messschritte)
+routes_no_MESP - routes %%
+  filter(EQUIPMENT != MESP)
+
+
+# Algorithmus zur Berechnung der Abstände spezifischer Arbeitsschritte
+calculate_distances - function(data, special_step) {
+  data %%
+    arrange(LOT, OPERATION) %%
+    group_by(LOT) %%
+    mutate(is_special_step = ifelse(EQUIPMENT == special_step, 1, 0)) %%
+    filter(is_special_step == 1) %%
+    summarize(distances = list(diff(OPERATION))) %%
+    unnest(cols = c(distances)) %%
+    filter(!is.na(distances)) %%
+    ungroup()
+}
+
+
+# Berechnung deskriptiver Kennzahlen der Verteilung der Messschritte
+mesp_distances - calculate_distances(routes_no_AUTP, MESP)
+
+mesp_stats - mesp_distances %%
+  left_join(routes %% select(LOT, ROUTE) %% distinct(), by = LOT) %%
+  group_by(ROUTE) %%
+  summarize(mean_distance = mean(distances, na.rm = TRUE),
+            sd_distance = sd(distances, na.rm = TRUE)) %%
+  arrange(desc(mean_distance))
+
+print(n = 25, mesp_stats)
+
+
+# Berechnung deskriptiver Kennzahlen der Verteilung der Sortierschritte
+autp_distances - calculate_distances(routes_no_MESP, AUTP)
+
+autp_stats - autp_distances %%
+  left_join(routes %% select(LOT, ROUTE) %% distinct(), by = LOT) %%
+  group_by(ROUTE) %%
+  summarize(mean_distance = mean(distances, na.rm = TRUE),
+            sd_distance = sd(distances, na.rm = TRUE)) %%
+  arrange(desc(mean_distance))
+
+print(n = 25, autp_stats)
+
+
+# Ausgabe für jede Route mit Häufigkeit, Mean_Mess, SD_Mess, Mean_Sort, SD_Sort
+route_stats - route_frequencies %%
+  left_join(autp_stats, by = ROUTE) %%
+  left_join(mesp_stats, by = ROUTE) %%
+  arrange(desc(n))
+
+colnames(route_stats) - c(ROUTE, Häufigkeit, Mittlere_Sort, Abweichung_Sort, Mittlere_Mess, Abweichung_Mess)
+
+print(n = 25, route_stats)
+
+
+# Visualisierung für Messschritte (sortiert nach Routengröße)
+ggplot(route_stats, aes(x = reorder(ROUTE, Häufigkeit))) +
+  geom_point(aes(y = Mittlere_Mess), color = red, size = 3) +
+  geom_errorbar(aes(ymin = Mittlere_Mess - Abweichung_Mess, ymax = Mittlere_Mess + Abweichung_Mess), width = 0.2, color = red, linetype = dashed) +
+  coord_flip() +
+  labs(title = Mittlere Distanz und Standardabweichung der Messschritte pro Route,
+       x = Route,
+       y = Mittlere Distanz der Messschritte) +
+  theme_minimal()
+
+
+# Visualisierung für Sortierschritte (sortiert nach Routengröße)
+ggplot(route_stats, aes(x = reorder(ROUTE, Häufigkeit))) +
+  geom_point(aes(y = Mittlere_Sort), color = blue, size = 3) +
+  geom_errorbar(aes(ymin = Mittlere_Sort - Abweichung_Sort, ymax = Mittlere_Sort + Abweichung_Sort), width = 0.2, color = blue) +
+  coord_flip() +
+  labs(title = Mittlere Distanz und Standardabweichung der Sortierschritte pro Route,
+       x = Route,
+       y = Mittlere Distanz der Sortierschritte) +
+  theme_minimal()
+
+
+# Überprüfen, ob die Messschritte die Sortierschritte erklären
+# - Korrelation zwischen mittleren Distanzen der Sortier- und Messschritte
+cor_mean - cor(route_stats$Mittlere_Sort, route_stats$Mittlere_Mess, use = complete.obs)
+cor_mean_test - cor.test(route_stats$Mittlere_Sort, route_stats$Mittlere_Mess, use = complete.obs)
+
+
+# - Korrelation zwischen Standardabweichungen der Sortier- und Messschritte
+cor_sd - cor(route_stats$Abweichung_Sort, route_stats$Abweichung_Mess, use = complete.obs)
+cor_sd_test - cor.test(route_stats$Abweichung_Sort, route_stats$Abweichung_Mess, use = complete.obs)
+
+print(cor_mean_test)
+print(cor_sd_test)
+
+
+# Ergebnis für Korrelation der Mittleren Distanz t = 2.3158, df = 23, p-value = 0.02984
+# Ergebnis für Korrelation der Standardabweichungen t = 2.5539, df = 23, p-value = 0.01774
+# - Signifikanter Zusammenhang zwischen Verhalten von Mess- und Sortierschritten mit moderater Effektstärke (r = 0,43 und r = 0,47)
+# - Durch eine mögliche Verringerung der Messschritte würde auch die Anzahl der nötigen Sortierschritte reduziert werden können
+# - Durch das Normieren der Messabstände würden auch die Abstände zwischen den Sortierschritten konstanter gemacht werden können
+
+
+# Anteil unproduktiver Schritte am Gesamtvolumen pro Route berechnen
+step_counts - routes %%
+  group_by(ROUTE) %%
+  summarize(
+    total_steps = n(),
+    special_steps = sum(EQUIPMENT %in% c(MESP, AUTP))
+  )
+
+step_percentages - step_counts %%
+  mutate(
+    percent_special = (special_steps  total_steps)  100
+  )
+
+route_stats2 - route_frequencies %%
+  left_join(step_percentages, by = ROUTE) %%
+  select(ROUTE, n, percent_special) %%
+  arrange(desc(n))
+
+colnames(route_stats2) - c(ROUTE, Häufigkeit, Anteil_unproduktiver_Schritte)
+
+print(n = 25, route_stats2)
+
+# Visualisierung des Anteils unproduktiver Schritte pro Route
+ggplot(route_stats2, aes(x = reorder(ROUTE, Häufigkeit), y = Anteil_unproduktiver_Schritte)) +
+  geom_bar(stat = identity, fill = steelblue) +
+  coord_flip() +
+  labs(title = Prozentanteil unproduktiver Schritte (Mess- und Sortierschritte) pro Route,
+       x = Route,
+       y = Prozent unproduktiver Schritte) +
+  theme_minimal()
+
+
+# Zu guter Letzt wird die Verteilung der verschiedenen Sortierschritte in ausgewählten Routen betrachtet
+# Die ausgewählten Routen sind
+# 1. Am meisten frequentierte Route SPQ (n = 304.354)
+# 2. Höchster Anteil unproduktiver Schritte + niedrigste Streuung Mess- sowie Sortierschritte UKG (= 44,0 %)
+# 3. Niedrigster Anteil unproduktiver Schritte + höchste Streuung Messschritte BSR (= 21,3 %)
+# 4. Höchste Streuung Sortierschritte XRI (sd = 30,8)
+
+sps_names - c(ID, AH, IN, ST, ME, DD, no)
+
+relevant_routes - c(SPQ, UKG, BSR, XRI)
+
+filtered_data - routes %%
+  filter(ROUTE %in% relevant_routes & EQUIPMENT == AUTP & SPS_NAME %in% sps_names)
+
+filtered_data - filtered_data %%
+  mutate(SPS_NAME = ifelse(SPS_NAME %in% c(ME, DD), ME+DD, SPS_NAME))
+
+sps_name_counts - filtered_data %%
+  group_by(ROUTE, SPS_NAME) %%
+  summarize(count = n(), .groups = 'drop')
+
+total_counts - filtered_data %%
+  group_by(ROUTE) %%
+  summarize(total = n(), .groups = 'drop')
+
+sps_name_percentages - sps_name_counts %%
+  left_join(total_counts, by = ROUTE) %%
+  mutate(percent = (count  total)  100) %%
+  select(ROUTE, SPS_NAME, percent)
+
+
+# Balkendiagramme erstellen
+ggplot(sps_name_percentages, aes(x = SPS_NAME, y = percent, fill = SPS_NAME)) +
+  geom_bar(stat = identity, position = dodge) +
+  labs(title = Prozentualer Anteil der verschiedenen Sortierschritte pro Route,
+       x = SPS_NAME,
+       y = Prozent) +
+  theme_minimal() +
+  scale_fill_brewer(palette = Set1) +
+  facet_wrap(~ ROUTE)
+
+# Auffällig ist, dass sich die Verteilung der Route UKG (höchster Anteil unproduktiver Schritte) von den anderen
+# durch einen erhöhten Anteil des Arbeitsschrittes IN unterscheidet (dies kann via der Email ignoriert werden)
+
+
+
+
